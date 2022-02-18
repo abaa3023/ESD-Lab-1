@@ -1,0 +1,52 @@
+DUNFIELD 8051 ASSEMBLER: A1                                           PAGE: 1
+
+0000                         1  *
+0000                         2  * Lab 1 Part 1 - Write a single assembly language program to calculate the following equation using integer division: Z = (X*8)/
+0000                         3  Y
+0000                         4  * Author: 		Abijith Ananda Krishnan
+0000                         5  * Created Date: 01/18/2022
+0000                         6  * Compiler: 	ASM51 assembler and Emily52 emulator(run on DosBox)	
+0000                         7  * 	
+0000                         8  *	
+0000                         9  	ORG	$0000		Origin at 0000H
+0000  E4                    10  	CLR A		Clear Accumulator
+0001  74 06                 11  	MOV	A,#06H		Set Accumulator as 06H		
+0003  F5 20                 12  	MOV $20,A		Pushing accumulator value to 20H address location
+0005  75 F0 03              13  	MOV B,#03H		Set B register as 0CH
+0008  85 F0 22              14  	MOV $22,B		Pushing B register value to 22H address location
+000B  E5 F0                 15  	MOV A,B			Move value of B to A for checking for zero condition
+000D  70 03                 16  	JNZ DIVISORNOTZERO
+000F  02 00 46              17  	LJMP ERRCODE1		Jump to error 
+0012  E5 20                 18  DIVISORNOTZERO	MOV A,$20
+0014  C3                    19  	CLR C		Clear Carry bit
+0015  33                    20  	RLC A		Multiply A with 2
+0016  40 34                 21  	JC ERRCODE2		Check if carrybit is set
+0018  33                    22  	RLC A		Multiply A with 2
+0019  40 31                 23  	JC ERRCODE2		Check if carry bit is set
+001B  33                    24  	RLC A		Multiply A with 2
+001C  40 2E                 25  	JC ERRCODE2		Check if carry bit is set
+001E  F5 21                 26  	MOV $21,A		Pushing accumulator value to 21H address location
+0020  78 00                 27  	MOV R0,#00H		Quotient will be stored here
+0022  02 00 25              28  	LJMP DIVISIONLOOP		Jump into Division process
+0025  95 F0                 29  DIVISIONLOOP	SUBB A,B		Subtract A and B
+0027  60 06                 30  	JZ REMAINDERZERO		If Accumulator is zero, jump to REMAINDERZERO
+0029  40 0F                 31  	JC REMAINDERNEGATIVE		If Accumulator is negative,cary bit is set and jump to REMAINDERNEGATIVE 
+002B  08                    32  	INC R0		Quotient increment
+002C  02 00 25              33  	LJMP DIVISIONLOOP		JUMP to DIVISIONLOOP
+002F  08                    34  REMAINDERZERO	INC R0
+0030  88 23                 35  	MOV $23,R0		Quotient in accumulator pushed to 23H address location
+0032  F5 24                 36  	MOV $24,A		Remainder A register pushed to 24H address location
+0034  75 30 00              37  	MOV $30,#00H		Store error code 0 in 30H
+0037  02 00 57              38  	LJMP ENDLOOP		Once calculation over, jump into infinite loop
+003A  88 23                 39  REMAINDERNEGATIVE	MOV $23,R0		Move Quotient to 23H
+003C  25 F0                 40  	ADD A,B		Adding A and B for remainder value
+003E  F5 24                 41  	MOV $24,A		Remainder A register pushed to 24H address location
+0040  75 30 00              42  	MOV $30,#00H		Store error code 0 in 30H
+0043  02 00 57              43  	LJMP ENDLOOP		Once calculation over, jump into infinite loop
+0046  75 30 01              44  ERRCODE1	MOV $30,#01H		Store error code 1 in 30H
+0049  02 00 57              45  	LJMP ENDLOOP		go into infinite loop
+004C  75 30 02              46  ERRCODE2	MOV $30,#02H		Store error code 2 in 30H
+004F  F5 23                 47  	MOV $23,A		Push Z value to 23H address location
+0051  02 00 57              48  	LJMP ENDLOOP		go into infinite loop
+0054  02 00 57              49  INFINITELOOP	LJMP ENDLOOP		go into infinite loop
+0057  02 00 54              50  ENDLOOP	LJMP INFINITELOOP		go into infinite loop

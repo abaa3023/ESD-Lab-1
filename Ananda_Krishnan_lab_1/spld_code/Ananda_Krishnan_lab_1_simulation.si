@@ -1,0 +1,22 @@
+Name     Gates;
+PartNo   CA0001;
+Date     9/12/89;
+Revision 04;
+Designer G. Woolhiser;
+Company  Logical Devices, Inc.;
+Assembly None;
+Location None;
+Device   g16v8a;
+
+
+ORDER: A15, A14, A13, A12, RD, PSEN, READ, CSPERIPH; 
+
+
+VECTORS:
+101110L*
+101010**
+111110**
+010010**
+000101**
+001001**
+010101**

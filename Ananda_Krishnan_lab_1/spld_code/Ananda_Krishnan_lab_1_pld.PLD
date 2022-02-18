@@ -1,0 +1,45 @@
+Name            Gates;
+Partno          CA0001;
+Revision        04;
+Date            9/12/89;
+Designer        G. Woolhiser;
+Company         Logical Devices, Inc.;
+Location        None;
+Assembly        None;
+Device          g16v8a;
+
+/****************************************************************/
+/*                                                              */
+/*      This is a example to demonstrate how CUPL               */
+/*      compiles simple gates.                                  */
+/*                                                              */
+/****************************************************************/
+
+/*
+ * Inputs:  define inputs to build simple gates from
+ */
+
+Pin 1 =  A15;
+Pin 2 =  A14;
+Pin 3 =  A13;
+Pin 4 =  A12;
+Pin 5 =  RD;
+Pin 6 =  PSEN;
+
+/*
+ * Outputs:  define outputs as active HI levels
+ *
+ */
+
+Pin 12 = READ;
+Pin 13 = CSPERIPH;
+
+/*
+ * Logic:  examples of simple gates expressed in CUPL
+ */
+
+READ = RD & PSEN;
+CSPERIPH = !(A15 & A14 & A13 & A12);
+
+
+
